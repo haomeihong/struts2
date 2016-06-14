@@ -2,25 +2,42 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
- 
+
 <struts>
- 
-    <constant name="struts.devMode" value="true" />
-    <constant name="struts.custom.i18n.resources" value="global"></constant>
- 
-    <package name="basicstruts2" extends="struts-default">
- 
-        <action name="index">
-            <result>/index.jsp</result>
-        </action>
-        <action name="hello" class="haomeihong.action.HelloWorldAction" method="execute">
-        <result name="success">/WEB-INF/HelloWorld.jsp</result>
-        </action>
-        <action name="register_*" class="haomeihong.action.RegisterAction" method="{1}">
-        <result name="input">/WEB-INF/Register.jsp</result>
-        <result>/WEB-INF/Home.jsp</result>
-        </action>
- 
-    </package>
- 
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="global"></constant>
+
+
+	<package name="basicstruts2" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="appDefaultStack">
+				<interceptor-ref name="defaultStack">
+					<param name="exception.logEnabled">true</param>
+					<param name="exception.logLevel">ERROR</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="appDefaultStack"></default-interceptor-ref>
+		<global-results>
+		<result name="securityerror">/WEB-INF/SecurityError.jsp</result>
+		<result name="error">/WEB-INF/Error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+		<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		<action name="hello" class="haomeihong.action.HelloWorldAction"
+			method="execute">
+			<result name="success">/WEB-INF/HelloWorld.jsp</result>
+		</action>
+		<action name="register_*" class="haomeihong.action.RegisterAction"
+			method="{1}">
+			<result name="input">/WEB-INF/Register.jsp</result>
+			<result>/WEB-INF/Home.jsp</result>
+		</action>
+	</package>
+
 </struts>
